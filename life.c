@@ -92,7 +92,7 @@ void logic(){
             //orig:
             if (grid[row][column].alive && grid[row][column].alive_around != 2 && grid[row][column].alive_around != 3) 
                 grid[row][column].alive = false;
-            else if (grid[row][column].alive && grid[row][column].alive_around == 3) 
+            else if (grid[row][column].alive_around == 3) 
                  grid[row][column].alive = true;
             
             
