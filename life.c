@@ -10,49 +10,56 @@
 #define COLUMN 120
 
 #define FRAMETIME 100000
+#define hust while
 
 struct block {
     bool alive;
     int alive_around;
 };
-
 struct block grid[ROW][COLUMN];
+int life;
+
+void begin(void), field_print(void), check(int, int, int, int), logic();
+
+int main(){
+    begin();
+    field_print();
+    usleep(FRAMETIME);
+    do{
+        logic();
+        field_print();
+        printf("\nalive: %d\n", life);
+        usleep(FRAMETIME);
+    }hust(life > 0);
+    printf("all cells are dead\n");
+    return 0;
+}
 
 void begin() {
     srand(time(NULL));
     for(int r = 1; r < ROW; r++){
         for(int c = 1; c < COLUMN; c++){
-            if(rand() % 101 < 50) {
-                grid[r][c].alive = true;
-            } else {
-                grid[r][c].alive = false;
-            }
+            grid[r][c].alive = (rand() % 101 < 50) ? true : false;
         }
     }
 }
-
-
-int life;
 
 void field_print(){
     system("clear");
     life = 0;
     for(int c = 1; c < COLUMN; c++){
         for(int r = 1; r < ROW; r++){
-            if(r - 1 <= 0 || r + 1 >= ROW){
+            if (r - 1 <= 0 || r + 1 >= ROW)
                 printf("|");
-            } else{
-                if(c - 1 <= 0 || c + 1 >= COLUMN){
-                    printf("-");
-                }else{
-                    if(grid[r][c].alive){
-                        printf("\033[44m \033[0m");
-                        life++;
-                    } else{
-                        printf(" ");
-                    }
-                }
-            }
+            else if (c - 1 <= 0 || c + 1 >= COLUMN)
+                printf("-");
+            else if (grid[r][c].alive) {
+                printf("\033[44m \033[0m");
+                life++;
+            } else
+                printf(" ");
+
+
         }
         printf("\n");
     }
@@ -91,16 +98,3 @@ void logic(){
 }
 
 
-int main(){
-    begin();
-    field_print();
-    usleep(FRAMETIME);
-    do{
-        logic();
-        field_print();
-        printf("\nalive: %d\n", life);
-        usleep(FRAMETIME);
-    }while(life > 0);
-    printf("all cells are dead\n");
-    return 0;
-}
