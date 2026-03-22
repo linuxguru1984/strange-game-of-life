@@ -21,7 +21,7 @@ int life;
 
 void begin(void), field_print(void), check(int, int, int, int), logic();
 
-int main(){
+int main() {
     begin();
     field_print();
     usleep(FRAMETIME);
@@ -35,7 +35,7 @@ int main(){
     return 0;
 }
 
-void begin() {
+void begin(){
     srand(time(NULL));
     for(int r = 1; r < ROW; r++){
         for(int c = 1; c < COLUMN; c++){
@@ -68,11 +68,10 @@ void field_print(){
 
 
 void check(int raround, int caround, int r, int c){
-    if(raround < ROW && raround > 0 && caround < COLUMN && caround > 0){
-        if(grid[raround][caround].alive){
-            grid[r][c].alive_around++;
-        }
-    }
+    if(raround < ROW && raround > 0 && caround < COLUMN && caround > 0 && grid[raround][caround].alive)
+        grid[r][c].alive_around++;
+        
+    
 }
 
 void logic(){
@@ -88,11 +87,7 @@ void logic(){
 
 
             //RULES
-
-            if(grid[row][column].alive_around <= 3){
-                grid[row][column].alive = true;
-            }
-            else grid[row][column].alive = false;
+            grid[row][column].alive = (grid[row][column].alive_around <= 3) ? true : false;
         }
     }
 }
